@@ -1,4 +1,5 @@
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +37,16 @@ public class Firebase4SAS {
         }
 
         final CountDownLatch done = new CountDownLatch(1);
-        ref.setValue(obj, (firebaseError, firebase) -> {
-            if (firebaseError != null) {
-                System.out.println("Data could not be saved. " + firebaseError.getMessage());
-            } else {
-                System.out.println("Data saved successfully.");
+        ref.setValue(obj, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if (firebaseError != null) {
+                    System.out.println("Data could not be saved. " + firebaseError.getMessage());
+                } else {
+                    System.out.println("Data saved successfully.");
+                }
+                done.countDown();
             }
-            done.countDown();
         });
         try {
             done.await();

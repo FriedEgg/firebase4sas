@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="firebase4sas">
-    <output-path>$PROJECT_DIR$/out/artifacts/firebase4sas</output-path>
-    <root id="archive" name="firebase4sas.jar">
-      <element id="module-output" name="firebase4sas" />
-      <element id="library" level="project" name="firebase-client-jvm-2.3.1" />
-    </root>
-  </artifact>
-</component>

@@ -1,6 +1,4 @@
-<snippet>
-   <content><![CDATA[
-# ${1:Firebase Adapter for SAS}
+# Firebase Adapter for SAS
 
 This will help load data from PROC GROOVY or Data Step to [Firebase](https://www.firebase.com/)
 
@@ -11,6 +9,3 @@ You must download the JAR release here, or compile yourself in addition to the F
 ## Usage
 
 See [Example](example.sas)
-]]></content>
-   <tabTrigger>readme</tabTrigger>
-</snippet>

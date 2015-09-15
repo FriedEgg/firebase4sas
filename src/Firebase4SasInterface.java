@@ -1,3 +1,4 @@
+import java.lang.InterruptedException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,5 +14,5 @@ public interface Firebase4SasInterface {
 
    void setFirebase(String firebase);
 
-   void loadObject();
+   void loadObject() throws InterruptedException;
 }

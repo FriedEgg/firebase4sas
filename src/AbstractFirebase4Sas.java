@@ -1,9 +1,11 @@
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import java.lang.InterruptedException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
+import java.util.Random;
+import java.util.concurrent.Semaphore;
 
 public abstract class AbstractFirebase4Sas implements Firebase4SasInterface {
     private String firebase;
@@ -34,14 +36,15 @@ public abstract class AbstractFirebase4Sas implements Firebase4SasInterface {
         this.obj = obj;
     }
 
-    public void loadObject() {
+    public void loadObject() throws InterruptedException {
         Firebase ref = new Firebase("https://" + firebase + ".firebaseio.com");
 
         for (String child : children) {
             ref = ref.child(child);
         }
 
-        final CountDownLatch done = new CountDownLatch(1);
+        final Semaphore semaphore = new Semaphore(1, true);
+        semaphore.acquire();
         ref.setValue(obj, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
@@ -50,13 +53,10 @@ public abstract class AbstractFirebase4Sas implements Firebase4SasInterface {
                 } else {
                     System.out.println("Data saved successfully.");
                 }
-                done.countDown();
+                semaphore.release();
             }
         });
-        try {
-            done.await();
-        } catch (java.lang.InterruptedException e) {
-            e.printStackTrace();
-        }
+        Thread.sleep(new Random().nextInt(4000));
+        semaphore.acquire();
     }
 }

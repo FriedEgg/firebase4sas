@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-public class Firebase4SAS extends AbstractFirebase4Sas{
+public abstract class AbstractFirebase4Sas implements Firebase4SasInterface {
     private String firebase;
     private List<String> children = new ArrayList<>();
+    private Object obj;
 
     public void setChildren(ArrayList<String> children) {
         this.children = children;
@@ -18,7 +19,7 @@ public class Firebase4SAS extends AbstractFirebase4Sas{
     }
 
     public List<String> getChildren() {
-        return this.children;
+        return children;
     }
 
     public void setFirebase(String firebase) {
@@ -26,13 +27,17 @@ public class Firebase4SAS extends AbstractFirebase4Sas{
     }
 
     public String getFirebase() {
-        return this.firebase;
+        return firebase;
     }
 
-    public void loadObject(Object obj) {
-        Firebase ref = new Firebase("https://" + this.firebase + ".firebaseio.com");
+    public void setLoaderObject(Object obj) {
+        this.obj = obj;
+    }
 
-        for (String child : this.children) {
+    public void loadObject() {
+        Firebase ref = new Firebase("https://" + firebase + ".firebaseio.com");
+
+        for (String child : children) {
             ref = ref.child(child);
         }
 
